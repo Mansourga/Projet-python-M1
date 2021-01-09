@@ -10,13 +10,19 @@ G=nx.DiGraph()
 for i in cite.cita:
     G.add_node(i[0])
     G.add_edge(i[0],i[1])
-#print(G.nodes())
-#print(G.edges())
+#tes=['9204102', '9310069', '9310170', '9403151', '9407190', '9408074', '9409188', '9505023', '9505053', '9505105', '9505183', '9506122', '9507050', '9508064', '9511088', '9511164', '9512078', '9602022', '9602114', '9603161', '9606086', '9608039', '9608079', '9609239', '9611007', '9611090', '9701015', '9702180', '9702201', '9703167', '9705220', '9707131', '9711067', '9801139', '9802016', '9803076', '9803145', '9804131', '9804172', '9805213', '9809187', '9810149', '9811131', '9812127', '9910181', '9910182', '9912123', '0002222', '0005180', '0005247', '0008142', '0010102', '0012041', '0101218', '0103011', '0105045', '0105225', '0108064', '0110171', '0111051', '0111068', '0111155', '0202208', '0203213', '0205297', '0206017', '0206164', '0206255', '0207106', '0208048', '0209138', '0210238', '0211098', '0211194', '0302011', '0302109', '0303063', '0304271']
+#for i in tes:
+    #print(G.nodes(i))
+print('9912138'in G.nodes())
+#print(G.edges('9805213'))
 #print(G.number_of_nodes())
 #print(G.number_of_edges())
 ##nx.draw_circular(G)
 #plt.show()
-#print(G.degree('9912293'))
+#print(G.degree('9805213'))
+
+
+#2)
 
 def influence_auteur(nom):
 
@@ -35,66 +41,68 @@ def influence_auteur(nom):
         #print(i)
         #for t in referencé:
             #a=nx.dijkstra_path_length(G,i,t)
-        a=nx.single_source_shortest_path(G,i,5) #le plus court chemin pour aller vers la cible
-        #ensemble=set(a.values())
-        #print(ensemble)
-        #intensité=nx.shortest_path_length(G,i,3) 
-        #print(intensité)
-        #print(i)
-        #print(a)
-        #ens=a[:len(a.values())-1]
-        #print(ens)
-        for j in a.values(): 
+        if i in G.nodes():
+            a=nx.single_source_shortest_path(G,i,4) #le plus court chemin pour aller vers la cible
+            #ensemble=set(a.values())
+            #print(ensemble)
+            #intensité=nx.shortest_path_length(G,i,3) 
+            #print(intensité)
             #print(i)
-            #print(j)
-        #    liste_sans_les_co_auteurs=j[1:]
-        #    for m in liste_sans_les_co_auteurs:
-            for m in j:
-                if m!=i:
-            
-                #for k in article1:
-                    #if m!=k:
+            #print(a)
+            #ens=a[:len(a.values())-1]
+            #print(ens)
+            for j in a.values(): 
+                #print(i)
+                #print(j)
+            #    liste_sans_les_co_auteurs=j[1:]
+            #    for m in liste_sans_les_co_auteurs:
+                for m in j:
+                    if m!=i:
+                
+                    #for k in article1:
+                        #if m!=k:
 
-                 #rajouté
-                    liste_ecrits.append(m)
-    #print(len(liste_ecrits))    
-   
-        for h in set(liste_ecrits):
-            for k,l in cite.article.items():    
-                if k==h:
-                    for e in l:
-                        nomss.append(e)
-        les_nom=sorted((list(set(nomss))))
-        if nom in les_nom:
-              les_nom.remove(nom)
-        b=nx.single_source_shortest_path_length(G,i,5)
-        for x,y in b.items():
-            #print(y)
-            for name in les_nom:
-                if name in cite.article[x] and y!=0:
-                    if name not in dic.keys() :
-                        dic[name]=1/y
-                    else:
-                        dic[name]+=1/y
+                    #rajouté
+                        liste_ecrits.append(m)
+        #print(len(liste_ecrits))    
+    
+            for h in set(liste_ecrits):
+                for k,l in cite.article.items():    
+                    if k==h:
+                        for e in l:
+                            nomss.append(e)
+            les_nom=sorted((list(set(nomss))))
+            if nom in les_nom:
+                les_nom.remove(nom)
+            b=nx.single_source_shortest_path_length(G,i,4)
+            for x,y in b.items():
+                #print(y)
+                for name in les_nom:
+                    if name in cite.article[x] and y!=0:
+                        if name not in dic.keys() :
+                            dic[name]=1/y
+                        else:
+                            dic[name]+=1/y
 
 
-
-    pprint(dic)
     print(len(dic))
-
-#print(influence_auteur('N. Warner'))
+    return dic
+    
+print(influence_auteur('N. Warner'))
+#print(influence_auteur('Cumrun Vafa'))
 #print(influence_auteur('N. Seiberg'))
 #print((influence_auteur('Thomas Appelquist'))) #qui ont influencé l'auteur
 
  #appelle de la fonction
 #print(influence_auteur('Andreas Nyffeler'))
-#print(time.time() - tmps1)
+print(time.time() - tmps1)
 
 
 #################################
+#3)
 def influencés_par_auteur(nom):
     article1=cite.les_articles_de_l_auteur(nom)
-    #print(article)
+    #print(article1)
     nomss=[]
     liste_ecrits=[]
     dic=dict()
@@ -110,40 +118,40 @@ def influencés_par_auteur(nom):
         #print(a)
         #c=nx.single_source_shortest_path(G,i,2)
         #print(c)
-        a=nx.single_target_shortest_path(G,i,20)
-        #print(b)
-        #d=nx.single_source_shortest_path_length(G,i,2)
+        if i in G.nodes():
+            a=nx.single_target_shortest_path(G,i,1)
+            #d=nx.single_source_shortest_path_length(G,i,2)
+            
+            #print(d)
+            for j in a.values():
+                for m in j:
+                    if m!=i: # je prends pas en compte l'auteur et ses co-auteurs 
+                        liste_ecrits.append(m)
+        #print(liste_ecrits)
         
-        #print(d)
-        for j in a.values():
-            for m in j:
-                if m!=i: # je prends pas en compte l'auteur et ses co-auteurs 
-                    liste_ecrits.append(m)
-    #print(liste_ecrits)
-    
-        for h in set(liste_ecrits):
-            for k,l in cite.article.items():
-                if k==h:
-                    for e in l:
-                        nomss.append(e)
+            for h in set(liste_ecrits):
+                for k,l in cite.article.items():
+                    if k==h:
+                        for e in l:
+                            nomss.append(e)
 
-        les_nom=sorted((list(set(nomss))))
-        if nom in les_nom:
-              les_nom.remove(nom)
-        for x,y in a.items():
-            #print(len(y))
-            if len(y)>1:
-                #m=y[0] #rec le prmier arictl de la liste valu
-                #print(m)
-                for name in les_nom:
-                    if name in cite.article[y[0]]:
-                        if name not in dic.keys():
-                            dic[name]=1/(len(y)-1)
-                        else:
-                            dic[name]+=1/(len(y)-1)
+            les_nom=sorted((list(set(nomss))))
+            if nom in les_nom:
+                les_nom.remove(nom)
+            for x,y in a.items():
+                #print(len(y))
+                if len(y)>1:
+                    #m=y[0] #rec le prmier arictl de la liste valu
+                    #print(m)
+                    for name in les_nom:
+                        if name in cite.article[y[0]]:
+                            if name not in dic.keys():
+                                dic[name]=1/(len(y)-1)
+                            else:
+                                dic[name]+=1/(len(y)-1)
 
-    pprint(dic)
-    print(len(dic))
+    return dic
+    #print(len(dic))
 
 
             
@@ -162,8 +170,8 @@ def influencés_par_auteur(nom):
 
     #print(liste_ecrits)
 #print(influencés_par_auteur('N. Warner'))
-#print(influencés_par_auteur('Andreas Nyffeler'))
-print((influencés_par_auteur('Thomas Appelquist')))
+#print(influencés_par_auteur('Cumrun Vafa'))
+#print((influencés_par_auteur('Andreas Nyffeler')))
 print(time.time() - tmps1)
 #
 

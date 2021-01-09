@@ -97,13 +97,14 @@ def influencés_par_auteur(nom):
         #print(i)
         #for t in referencé:
             #a=nx.dijkstra_path_length(G,i,t)
-        a=nx.single_target_shortest_path(G,i,5) #sort un dict dans lequel les keys sont les cibles et les values() :des liste de valeur allant de la source vers la cible
-    
-    #print(a)
-        for j in a.values():
-            for m in j:
-                if m!=i: # je prends pas en compte l'auteur et ses co-auteurs 
-                    liste_ecrits.append(m)
+        if i in G.nodes():
+            a=nx.single_target_shortest_path(G,i,2) #sort un dict dans lequel les keys sont les cibles et les values() :des liste de valeur allant de la source vers la cible
+        
+        #print(a)
+            for j in a.values():
+                for m in j:
+                    if m!=i: # je prends pas en compte l'auteur et ses co-auteurs 
+                        liste_ecrits.append(m)
     #print(liste_ecrits)
     nomss=[]
     for h in liste_ecrits:
@@ -125,7 +126,7 @@ def influencés_par_auteur(nom):
 
 #print((influencés_par_auteur('Thomas Appelquist'))) #qui ont influencé l'auteur
 #print(influencés_par_auteur('N. Warner'))
-print((influencés_par_auteur('Andreas Nyffeler')))
+print((influencés_par_auteur('Cumrun Vafa')))
 
 #Repondre la
 """
