@@ -2,6 +2,10 @@
 import networkx as nx
 import Citee
 import initi
+import time
+
+tmps1=time.time()
+
 class Graph:
     def __init__(self):
         self.G=nx.DiGraph()
@@ -26,7 +30,7 @@ class Auteur(Graph):
         self.nomss=list()
         self.dic=dict()
         #print(self.numero_d_itenfiant)
-
+    
     def influencés_par_l_auteur(self,nom,N):
         self.N=N
         #self.Citee.Communaute.les_articles_de_l_auteur()
@@ -44,7 +48,7 @@ class Auteur(Graph):
             #print(liste_ecrits)
                 
                 for h in set(self.liste_ecrits):
-                    for k,l in initi.Initialisation.load(self,"article.json").items():
+                    for k,l in self.article.items():
                         if k==h:
                             for e in l:
                                 self.nomss.append(e)
@@ -58,7 +62,7 @@ class Auteur(Graph):
                         #m=y[0] #rec le prmier arictl de la liste valu
                         #print(m)
                         for name in les_nom:
-                            if name in Citee.initi.Initialisation.load(self,"article.json")[y[0]]:
+                            if name in self.article[y[0]]:
                                 if name not in self.dic.keys():
                                     self.dic[name]=1/(len(y)-1)
                                 else:
@@ -66,7 +70,7 @@ class Auteur(Graph):
 
         return self.dic
 
-        
+    
     def influence_auteur(self,nom,N):
         self.N=N
 
@@ -88,7 +92,7 @@ class Auteur(Graph):
             
 
                 for h in set(self.liste_ecrits):
-                    for k,l in initi.Initialisation.load(self,"article.json").items():    
+                    for k,l in self.article.items():    
                         if k==h:
                             for e in l:
                                 self.nomss.append(e)
@@ -99,7 +103,7 @@ class Auteur(Graph):
                 for x,y in liste_des_chaines_de_reference_de_l_auteur.items():
                     #print(y)
                     for name in les_nom:
-                        if name in initi.Initialisation.load(self,"article.json")[x] and y!=0:
+                        if name in self.article[x] and y!=0:
                             if name not in self.dic.keys() :
                                 self.dic[name]=1/y
                             else:
@@ -107,7 +111,10 @@ class Auteur(Graph):
 
 
         print(len(self.dic))
+        
         return self.dic
+print(time.time() - tmps1)
+
 
 
 
@@ -128,8 +135,8 @@ if __name__== "__main__":
     c=Graph()
     #print(c.creation_du_graph())
     A=Auteur("Andreas Nyffeler")
-    #print(A.influencés_par_l_auteur("Andreas Nyffeler"))
-    print(A.influence_auteur("Andreas Nyffeler",2))
+    print(A.influencés_par_l_auteur("Andreas Nyffeler",2))
+    #print(A.influence_auteur("Andreas Nyffeler",2))
 
 
 
