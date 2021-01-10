@@ -1,33 +1,36 @@
-import influencee
+#!/bin/env python3
+import influence
 import networkx as nx
-import Citee
-import initi
+import cite
+import init
 import time
-from influencee import Auteur
-from influencee import Graph
+from influence import Auteur
+from influence import Graph
 from pprint import pprint
+
+
 class Communautes(Auteur):
+    """
+    Dans cette classe, on cherche la liste de toutes les communautés autour de A de profondeur N .
+
+    """
+
     def __init__(self,nom):
+
         super().__init__(nom)
         self.nom= nom
-        #self.N=N
+
     def communautes(self,nom,N):
+        """ 
+        Avec notre comprehension, pour sortir la liste d'une communauté, il faut que l'auteur en question soit influencé par un auteur et ce dernier l'influence aussi.
+        Donc, les 2 noms doivent se trouver dans la liste influencé_par_l'auteur et aussi dans la liste influence_auteur.
+        C'est pourquoi on a utilisé l'intersection des deux ensembles.
+        """
         self.N=N
-        #print(self.N)
+       
         self.influence_auteur=self.influence_auteur(nom,N)
-        #print(self.influence_auteur)
-        self.influencé_par_l_auteur=influencee.Auteur.influencés_par_l_auteur(self,nom,N)
+
+        self.influencé_par_l_auteur=influence.Auteur.influencés_par_l_auteur(self,nom,N)
         return sorted(list(set(self.influence_auteur).intersection(set(self.influencé_par_l_auteur))))
 
-    #intersec=set(influence).intersection(set(influencé))
-    #print((set()).intersection(set(intensite.influencés_par_auteur(nom).keys())))
 
-
-
-if __name__== "__main__":
-    #c=Graph()
-    #print(c.creation_du_graph())
-    A=Communautes("Andreas Nyffeler")
-    
-    #print(A.influence_auteur("Andreas Nyffeler",2))
-    pprint(A.communautes('Andreas Nyffeler',3))

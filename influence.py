@@ -1,206 +1,147 @@
-
+#!/bin/env python3
 import networkx as nx
 import cite
-from pprint import pprint
- 
-import time 
+import init
+import time
 
 tmps1=time.time()
 
-G=nx.DiGraph()
-for i in cite.cita:
-    G.add_node(i[0])
-    G.add_edge(i[0],i[1])
-#print(G.nodes())
-#print(G.edges())
-#print(G.number_of_nodes())
-#print(G.number_of_edges())
-##nx.draw_circular(G)
-#plt.show()
-#print(G.degree('9901023'))
-"""
-def influence_auteur(nom):
-
-    #Ici, je cherche ceux qui ont influencé l'auteur en prenant en compte aussi ces co-auteurs
-
-
-    article1=cite.les_articles_de_l_auteur(nom)
-    #print(article)
-    #referencé=cite.article_réferncé(nom)
-    liste_ecrits=[]    
-    liste_d_ensemble=[]
-    #ensemble=set()
-    for i in article1:
-        #print(i)
-        #for t in referencé:
-            #a=nx.dijkstra_path_length(G,i,t)
-        a=nx.single_source_shortest_path(G,i,5) #le plus court chemin pour aller vers la cible
-        #ensemble=set(a.values())
-        #print(ensemble)
-        #intensité=nx.shortest_path_length(G,i,3) 
-        #print(intensité)
-        #print(i)
-        #print(a)
-        #ens=a[:len(a.values())-1]
-        #print(ens)
-        for j in a.values(): 
-            #print(i)
-            #print(j)
-        #    liste_sans_les_co_auteurs=j[1:]
-        #    for m in liste_sans_les_co_auteurs:
-            for m in j:
-                if m!=i:
-            
-                #for k in article1:
-                    #if m!=k:
-
-                 #rajouté
-                    liste_ecrits.append(m)
-    #print(len(liste_ecrits))    
-    nomss=[]
-    for h in set(liste_ecrits):
-        for k,l in cite.article.items():    
-            if k==h:
-                for e in l:
-                    nomss.append(e)
-    les_nom=sorted((list(set(nomss))))
-    if nom in les_nom:
-        les_nom.remove(nom)
-    pprint(les_nom)
-    print(len((list(set(les_nom)))))
-    print(len(liste_ecrits))
-        #b=nx.single_source_dijkstra_path(G,i,1)
-        #print(a)
-        #print("rien")
-        #print(b)
-
-    #liste_ecrits.append(a)
-
-    #print(liste_ecrits)
-#print(influence_auteur('N. Seiberg'))
-print(influence_auteur('Andreas Nyffeler'))
-#print((influence_auteur('Thomas Appelquist'))) #qui ont influencé l'auteur
-
- #appelle de la fonction
-#print(influence_auteur('N. Warner'))
-print(time.time() - tmps1)
-
-"""
-
-
-def influencés_par_auteur(nom):
-    article=cite.les_articles_de_l_auteur(nom)
-    #print(article)
-    referencé=cite.article_réferncé(nom)
-    liste_ecrits=[]    
-    for i in article:
-        #print(i)
-        #for t in referencé:
-            #a=nx.dijkstra_path_length(G,i,t)
-        if i in G.nodes():
-            a=nx.single_target_shortest_path(G,i,2) #sort un dict dans lequel les keys sont les cibles et les values() :des liste de valeur allant de la source vers la cible
-        
-        #print(a)
-            for j in a.values():
-                for m in j:
-                    if m!=i: # je prends pas en compte l'auteur et ses co-auteurs 
-                        liste_ecrits.append(m)
-    #print(liste_ecrits)
-    nomss=[]
-    for h in liste_ecrits:
-        for k,l in cite.article.items():
-            if k==h:
-                for e in l:
-                    nomss.append(e)
-    pprint(sorted(list(set(nomss))))
-    print(len(list(set(nomss))))
-        #b=nx.single_source_dijkstra_path(G,i,1)
-        #print(a)
-        #print("rien")
-        #print(b)
-
-    #liste_ecrits.append(a)
-
-    #print(liste_ecrits)
-#print(influencés_par_auteur('N. Warner'))
-
-#print((influencés_par_auteur('Thomas Appelquist'))) #qui ont influencé l'auteur
-#print(influencés_par_auteur('N. Warner'))
-print((influencés_par_auteur('Cumrun Vafa')))
-
-#Repondre la
-"""
-def influencés_par_auteur(nom):
-    article=cite.les_articles_de_l_auteur(nom)
-    #print(article)
-    referencé=cite.article_réferncé(nom)
-    liste_ecrits=[]   
-    dic={}
-    nomss=[]
-    for i in article:
-        #print(i)
-        #for t in referencé:
-            #a=nx.dijkstra_path_length(G,i,t)
-        b=nx.single_source_shortest_path(G,i,5)
-        a=nx.single_source_shortest_path_length(G,i,5)
-        for j in b.values():
-            for m in j:
-                if m!=i: # je prends pas en compte l'auteur et ses co-auteurs 
-                    liste_ecrits.append(m)
-    #print(liste_ecrits) 
-                    for h in liste_ecrits:
-                        for k,l in cite.article.items():
-                            if k==h:
-                                for e in l:
-
-        #print(b)
-                                     #sort un dict dans lequel les keys sont les cibles et les values() :des liste de valeur allant de la source vers la cible
-        #for j,l in a.items():
-        #for m in b.values():
-
-                                    
-                                    for numero,longeur in a.items():
-                                            try:
-                                                if e in cite.article[numero]:
-                                            
-                                                    dic[e]+=1/longeur
-                                                else:
-                                                    dic[e]= 1/longeur
-                                            except:
-                                                pass
-    pprint(dic)
-                                        #nomss.append(e)
-
-                #for k,l in cite.article.items():
-            #print(j)
-
-        #print(a)
-
-##########
-    
-        for j in a.values():
-            for m in j:
-                if m!=i: # je prends pas en compte l'auteur et ses co-auteurs 
-                liste_ecrits.append(m)
-    #print(liste_ecrits)
-    nomss=[]
-    for h in liste_ecrits:
-        for k,l in cite.article.items():
-            if k==h:
-                for e in l:
-                    nomss.append(e)
-    pprint(sorted(list(set(nomss))))
-    print(len(list(set(nomss))))
-        #b=nx.single_source_dijkstra_path(G,i,1)
-        #print(a)
-        #print("rien")
-        #print(b)
-
-    #liste_ecrits.append(a)
-
-    #print(liste_ecrits)
+class Graph:
     """
-#print(influencés_par_auteur('N. Warner'))
+    Dans cette classe, on crée un graphe orienté à partir du fichier citation
 
-#print((influencés_par_auteur('Andreas Nyffeler'))) #qui ont influencé l'auteur
-#print(influencés_par_auteur('N. Warner'))
+    """
+    def __init__(self):
+        self.G=nx.DiGraph()
+    
+    def creation_du_graph(self):
+        self.citation=init.Initialisation.load(self,"citation.json")
+        for i in self.citation:
+            self.G.add_node(i[0])
+            self.G.add_edge(i[0],i[1])
+        return self.G
+
+class Auteur(Graph):
+
+    def __init__(self,nom):
+        super().__init__()
+        self.nom=nom
+        self.article=init.Initialisation.load(self,"article.json")
+        self.numero_d_itenfiant=cite.Communaute.les_articles_de_l_auteur(self,nom)
+        self.liste_ecrits=list()
+        self.liste_des_noms=list()
+        self.dict=dict()
+        self.nomss=list()
+        self.dic=dict()
+        
+    
+    def influencés_par_l_auteur(self,nom,N):
+        """
+        ici, on sort la liste pondérée des auteurs Bi influencés avec une profondeur d’au plus N par un auteur donné .
+        
+        """ 
+        self.N=N
+        for numero in self.numero_d_itenfiant:
+            if numero in self.creation_du_graph().nodes():
+
+                liste_des_articles_de_reference=nx.single_target_shortest_path(self.G,numero,self.N) #donne la liste des predecesseurs de longeur au plus N de l'article
+                
+                for i in liste_des_articles_de_reference.values():
+                    for m in i:
+                        if m!=numero: # on prend pas en compte l'auteur et ses co-auteurs 
+                            self.liste_ecrits.append(m)
+                
+                for h in set(self.liste_ecrits): #set: nous permet ne pas retrouver les doublons
+                    for k,l in self.article.items():
+                        if k==h:
+                            for e in l:
+                                self.nomss.append(e)
+                    
+                les_nom=sorted((list(set(self.nomss)))) # c'est ici que l'on recupere la liste des auteurs influencé par l'auteur donné
+                if nom in les_nom:
+                    les_nom.remove(nom) #si le nom de l'auteur se trouve dans la liste les_nom: on l'enleve
+
+                """
+
+                C'est à ce niveau où l'on va faire les calculs de l'intensité
+                
+                """
+                for x,y in liste_des_articles_de_reference.items():
+                    if len(y)>1:
+                        for name in les_nom:
+                            if name in self.article[y[0]]:
+                                if name not in self.dic.keys():
+                                    self.dic[name]=1/(len(y)-1)
+                                else:
+                                    self.dic[name]+=1/(len(y)-1)
+
+        return self.dic
+
+    
+    def influence_auteur(self,nom,N):
+        """
+        Ici, on sort la liste pondérée des auteurs Bi qui influencent l'auteur en question avec une profondeur au plus N. 
+        
+        """
+        self.N=N
+
+        #Ici, on cherche ceux qui ont influencé l'auteur en prenant en compte aussi ces co-auteurs
+        
+        for numero in self.numero_d_itenfiant:
+            if numero in self.creation_du_graph().nodes():
+                liste_chaines_de_reference=nx.single_source_shortest_path(self.G,numero,self.N) # donne les chaines de reference de longeur au plus N
+                for j in liste_chaines_de_reference.values(): 
+                    for m in j:
+                        if m!=numero:
+                            self.liste_ecrits.append(m) 
+            
+                for h in set(self.liste_ecrits):
+                    for k,l in self.article.items():    
+                        if k==h:
+                            for e in l:
+                                self.nomss.append(e)
+                les_nom=sorted((list(set(self.nomss)))) #recupere la liste des auteurs qui influencent l'auteur donné
+                if nom in les_nom:
+                    les_nom.remove(nom)
+                liste_des_chaines_de_reference_de_l_auteur=nx.single_source_shortest_path_length(self.G,numero,self.N)
+                
+                for x,y in liste_des_chaines_de_reference_de_l_auteur.items():
+                
+                    for name in les_nom:
+                        if name in self.article[x] and y!=0:
+                            if name not in self.dic.keys() :
+                                self.dic[name]=1/y
+                            else:
+                                self.dic[name]+=1/y
+
+        
+        return self.dic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__== "__main__":
+    c=Graph()
+    #print(c.creation_du_graph())
+    A=Auteur("Andreas Nyffeler")
+    print(A.influencés_par_l_auteur("Andreas Nyffeler",2))
+    #print(A.influence_auteur("Andreas Nyffeler",2))
+
+
+
+
+ 
